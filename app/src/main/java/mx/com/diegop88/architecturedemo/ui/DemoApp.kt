@@ -1,10 +1,12 @@
 package mx.com.diegop88.architecturedemo.ui
 
-import dagger.android.AndroidInjector
-import dagger.android.DaggerApplication
-import mx.com.diegop88.architecturedemo.di.DaggerAppComponent
+import android.app.Application
+import mx.com.diegop88.architecturedemo.di.appModule
+import org.koin.android.ext.android.startKoin
 
-class DemoApp : DaggerApplication() {
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> =
-        DaggerAppComponent.builder().create(this)
+class DemoApp : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        startKoin(this, listOf(appModule))
+    }
 }

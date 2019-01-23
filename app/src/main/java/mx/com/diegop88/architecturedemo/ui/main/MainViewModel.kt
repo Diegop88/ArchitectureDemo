@@ -3,7 +3,6 @@ package mx.com.diegop88.architecturedemo.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -30,10 +29,5 @@ class MainViewModel(private val getAllCountries: GetAllCountries) : ViewModel() 
                 is Resource.Error -> _errorData.value = result.exception
             }
         }
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    class Factory(private val getAllCountries: GetAllCountries) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T = MainViewModel(getAllCountries) as T
     }
 }
