@@ -32,6 +32,9 @@ private val demoService = retrofit.create(DemoService::class.java)
 val appModule = module {
     single { demoService }
     single { DemoRepository(demoService = get()) }
-    factory { GetAllCountries(get()) }
-    viewModel { MainViewModel(get()) }
+
+    module("MainActivity") {
+        factory { GetAllCountries(get()) }
+        viewModel { MainViewModel(get()) }
+    }
 }
