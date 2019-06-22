@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_country.view.*
 import mx.com.diegop88.architecturedemo.R
-import mx.com.diegop88.architecturedemo.data.entities.Country
+import mx.com.diegop88.shareddemo.domain.usecases.models.Country
 
 class CountriesAdapter : ListAdapter<Country, CountriesAdapter.CountryViewHolder>(CountryDiff()) {
 

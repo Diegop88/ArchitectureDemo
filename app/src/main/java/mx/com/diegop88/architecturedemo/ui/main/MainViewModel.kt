@@ -7,9 +7,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import mx.com.diegop88.architecturedemo.data.entities.Country
-import mx.com.diegop88.architecturedemo.domain.usecases.GetAllCountries
-import mx.com.diegop88.architecturedemo.utils.Resource
+import mx.com.diegop88.shareddemo.domain.usecases.GetAllCountries
+import mx.com.diegop88.shareddemo.domain.usecases.models.Country
+import mx.com.diegop88.shareddemo.utils.Resource
 
 class MainViewModel(private val getAllCountries: GetAllCountries) : ViewModel() {
 
@@ -25,7 +25,7 @@ class MainViewModel(private val getAllCountries: GetAllCountries) : ViewModel() 
         val result = getAllCountries()
         withContext(Dispatchers.Main) {
             when (result) {
-                is Resource.Success -> _countriesData.value = result.data
+                is Resource.Success -> _countriesData.value = result.data.toList()
                 is Resource.Error -> _errorData.value = result.exception
             }
         }
