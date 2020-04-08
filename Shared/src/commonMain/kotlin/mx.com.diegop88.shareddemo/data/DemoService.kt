@@ -1,25 +1,25 @@
 package mx.com.diegop88.shareddemo.data
 
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.get
 import io.ktor.client.request.url
-import mx.com.diegop88.shareddemo.data.entities.CountriesEntity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import mx.com.diegop88.shareddemo.data.entities.CountryEntity
 
-class DemoService(private val engine: HttpClientEngine) {
+class DemoService {
 
     private val client by lazy {
-        HttpClient(engine) {
-            install(JsonFeature) {
-                serializer = KotlinxSerializer()
-            }
+        HttpClient {
+            install(JsonFeature)
         }
     }
 
-    suspend fun getAllCountries() = client.get<CountriesEntity> {
-        url("$baseUrl/rest/v2/all?fields=name;capital")
+    suspend fun getAllCountries() = withContext(Dispatchers.Default) {
+        client.get<List<CountryEntity>> {
+            url("$baseUrl/rest/v2/all?fields=name;capital")
+        }
     }
 
     companion object {
