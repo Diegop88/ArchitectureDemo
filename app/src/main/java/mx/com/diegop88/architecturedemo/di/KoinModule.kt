@@ -4,11 +4,13 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import mx.com.diegop88.architecturedemo.data.DemoService
 import mx.com.diegop88.architecturedemo.domain.repositories.DemoRepository
 import mx.com.diegop88.architecturedemo.domain.usecases.GetAllCountries
+import mx.com.diegop88.architecturedemo.ui.main.MainActivity
 import mx.com.diegop88.architecturedemo.ui.main.MainViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.koin.androidx.viewmodel.ext.koin.viewModel
-import org.koin.dsl.module.module
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -33,8 +35,8 @@ val appModule = module {
     single { demoService }
     single { DemoRepository(demoService = get()) }
 
-    module("MainActivity") {
-        factory { GetAllCountries(get()) }
+    scope<MainActivity> {
+        scoped { GetAllCountries(get()) }
         viewModel { MainViewModel(get()) }
     }
 }
