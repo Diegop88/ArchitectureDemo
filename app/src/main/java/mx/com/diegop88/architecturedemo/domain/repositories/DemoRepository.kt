@@ -1,27 +1,15 @@
 package mx.com.diegop88.architecturedemo.domain.repositories
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import mx.com.diegop88.architecturedemo.data.DemoService
-import mx.com.diegop88.architecturedemo.data.entities.Country
-import mx.com.diegop88.architecturedemo.utils.Resource
-import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 class DemoRepository(private val demoService: DemoService) {
 
-    suspend fun getAllCountries(): Resource<List<Country>> {
-        return try {
-            val result = demoService.getAllCountries().await()
-            if (result.isSuccessful) {
-                val data = result.body()
-                if (data != null) {
-                    Resource.Success(data)
-                } else {
-                    Resource.Error(IOException("Data is null"))
-                }
-            } else {
-                Resource.Error(IOException(result.message()))
-            }
-        } catch (exception: IOException) {
-            Resource.Error(exception)
-        }
+    suspend fun getAllCountries() = withContext(Dispatchers.IO) {
+        delay(TimeUnit.SECONDS.toMillis(3))
+        demoService.getAllCountries()
     }
 }

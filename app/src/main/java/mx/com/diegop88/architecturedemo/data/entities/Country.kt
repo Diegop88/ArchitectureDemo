@@ -1,10 +1,15 @@
 package mx.com.diegop88.architecturedemo.data.entities
 
-import com.google.gson.annotations.SerializedName
+import androidx.recyclerview.widget.DiffUtil
 
-class Country(
-    @SerializedName("name")
+data class Country(
     val name: String,
-    @SerializedName("capital")
     val capital: String
-)
+) {
+    companion object {
+        val diff = object : DiffUtil.ItemCallback<Country>() {
+            override fun areItemsTheSame(oldItem: Country, newItem: Country) = oldItem.name == newItem.name
+            override fun areContentsTheSame(oldItem: Country, newItem: Country) = oldItem == newItem
+        }
+    }
+}

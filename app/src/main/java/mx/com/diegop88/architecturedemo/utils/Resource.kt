@@ -1,6 +1,10 @@
 package mx.com.diegop88.architecturedemo.utils
 
-sealed class Resource<out T : Any> {
-    class Success<out T : Any>(val data: T) : Resource<T>()
-    class Error(val exception: Exception) : Resource<Nothing>()
+sealed class Resource {
+    object Loading : Resource()
+    class Success(val requestCode: Int, val data: Any) : Resource() {
+        inline fun <reified T> responseTo() = data as T
+    }
+    object Complete : Resource()
+    class Error(val exception: Throwable) : Resource()
 }
